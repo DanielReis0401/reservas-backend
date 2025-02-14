@@ -20,8 +20,8 @@ public class PassengerController {
 
   @GetMapping("/reservation/{reservationId}")
   @Operation(
-    summary = "Get a passenger by ReservationID",
-    description = "Returns passenger by ReservationID"
+    summary = "Get passengers by Reservation ID",
+    description = "Returns a list of passengers associated with a specific reservation"
   )
   public List<Passenger> getPassengersByReservation(
     @PathVariable Long reservationId
@@ -30,6 +30,10 @@ public class PassengerController {
   }
 
   @PostMapping("/{reservationId}")
+  @Operation(
+          summary = "Add a new passenger to a reservation",
+          description = "Creates a new passenger and associates them with a reservation"
+  )
   public ResponseEntity<Passenger> addPassenger(
     @PathVariable Long reservationId,
     @RequestBody PassengerDTO passengerDTO
@@ -40,6 +44,10 @@ public class PassengerController {
   }
 
   @PutMapping("/{id}")
+  @Operation(
+          summary = "Update a passenger",
+          description = "Updates passenger details associated with a reservation"
+  )
   public ResponseEntity<Passenger> updatePassenger(
     @PathVariable Long reservationId,
     @PathVariable Long idPassenger,
@@ -55,6 +63,10 @@ public class PassengerController {
   }
 
   @DeleteMapping("/{reservationId}/{id}")
+  @Operation(
+          summary = "Delete a passenger",
+          description = "Removes a passenger from a reservation"
+  )
   public ResponseEntity<Void> deletePassenger(
     @PathVariable Long reservationId,
     @PathVariable Long idPassenger
