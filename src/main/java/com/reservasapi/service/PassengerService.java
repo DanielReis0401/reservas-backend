@@ -9,11 +9,16 @@ import com.reservasapi.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PassengerService {
+
+  private static final PassengerMapper MAPPER = Mappers.getMapper(
+    PassengerMapper.class
+  );
 
   @Autowired
   private PassengerRepository passengerRepository;
@@ -42,9 +47,7 @@ public class PassengerService {
       reservationId
     );
     if (reservation.isPresent()) {
-      return passengerRepository.save(
-        PassengerMapper.toPassenger(passengerDTO)
-      ); //Guarda o passageiro na database
+      return passengerRepository.save(MAPPER.toPassenger(passengerDTO)); //Guarda o passageiro na database
     } else {
       throw new RuntimeException(
         "Reservation not found with ID: " + reservationId
@@ -67,13 +70,13 @@ public class PassengerService {
       if (passenger.isPresent()) {
         Passenger existingPassenger = passenger.get();
         existingPassenger.setName(
-          PassengerMapper.toPassenger(updatedPassengerDTO).getName()
+          MAPPER.toPassenger(updatedPassengerDTO).getName()
         );
         existingPassenger.setAge(
-          PassengerMapper.toPassenger(updatedPassengerDTO).getAge()
+          MAPPER.toPassenger(updatedPassengerDTO).getAge()
         );
         existingPassenger.setType(
-          PassengerMapper.toPassenger(updatedPassengerDTO).getType()
+          MAPPER.toPassenger(updatedPassengerDTO).getType()
         );
         return passengerRepository.save(existingPassenger); //Guarda o passageiro apos o update
       } else {

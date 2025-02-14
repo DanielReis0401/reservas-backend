@@ -2,26 +2,23 @@ package com.reservasapi.model.mapper;
 
 import com.reservasapi.DTO.ReservationServiceDTO;
 import com.reservasapi.model.servico.ReservationService;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class ReservationServiceMapper {
-
-  public static ReservationServiceDTO toReservationServiceDTO(
+@Mapper
+public interface ReservationServiceMapper extends BaseMapper {
+  @Mapping(target = "name", source = "name")
+  @Mapping(target = "description", source = "description")
+  @Mapping(target = "price", source = "price")
+  ReservationServiceDTO toReservationServiceDTO(
     ReservationService reservationService
-  ) {
-    return ReservationServiceDTO.builder()
-      .name(reservationService.getName())
-      .description(reservationService.getDescription())
-      .price(reservationService.getPrice())
-      .build();
-  }
+  );
 
-  public static ReservationService toReservationService(
-    ReservationServiceDTO reservationServiceDTO
-  ) {
-    return ReservationService.builder()
-      .name(reservationServiceDTO.getName())
-      .description(reservationServiceDTO.getDescription())
-      .price(reservationServiceDTO.getPrice())
-      .build();
-  }
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "name", source = "name")
+  @Mapping(target = "description", source = "description")
+  @Mapping(target = "price", source = "price")
+  ReservationService toReservationService(
+    ReservationServiceDTO reservationService
+  );
 }

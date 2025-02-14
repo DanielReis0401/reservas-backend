@@ -31,8 +31,8 @@ public class PassengerController {
 
   @PostMapping("/{reservationId}")
   @Operation(
-          summary = "Add a new passenger to a reservation",
-          description = "Creates a new passenger and associates them with a reservation"
+    summary = "Add a new passenger to a reservation",
+    description = "Creates a new passenger and associates them with a reservation"
   )
   public ResponseEntity<Passenger> addPassenger(
     @PathVariable Long reservationId,
@@ -45,8 +45,8 @@ public class PassengerController {
 
   @PutMapping("/{id}")
   @Operation(
-          summary = "Update a passenger",
-          description = "Updates passenger details associated with a reservation"
+    summary = "Update a passenger",
+    description = "Updates passenger details associated with a reservation"
   )
   public ResponseEntity<Passenger> updatePassenger(
     @PathVariable Long reservationId,
@@ -64,8 +64,8 @@ public class PassengerController {
 
   @DeleteMapping("/{reservationId}/{id}")
   @Operation(
-          summary = "Delete a passenger",
-          description = "Removes a passenger from a reservation"
+    summary = "Delete a passenger",
+    description = "Removes a passenger from a reservation"
   )
   public ResponseEntity<Void> deletePassenger(
     @PathVariable Long reservationId,

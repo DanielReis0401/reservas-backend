@@ -63,6 +63,7 @@ public class Reservation {
     joinColumns = @JoinColumn(name = "passenger_id"),
     inverseJoinColumns = @JoinColumn(name = "reservation_id")
   )
+  @Builder.Default
   private List<Passenger> passengers = new ArrayList<>();
 
   @OneToMany(
@@ -71,6 +72,7 @@ public class Reservation {
     orphanRemoval = true
   )
   @JoinColumn(name = "reservation_id")
+  @Builder.Default
   private List<ReservationService> services = new ArrayList<>();
 
   /**

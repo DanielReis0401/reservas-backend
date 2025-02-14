@@ -2,10 +2,9 @@ package com.reservasapi.controller;
 
 import com.reservasapi.model.servico.ReservationService;
 import com.reservasapi.service.ReservationServiceService;
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping
-@Tag(name = "Reservation Services", description = "Endpoints for managing services related to reservations")
+@Tag(
+  name = "Reservation Services",
+  description = "Endpoints for managing services related to reservations"
+)
 public class ReservationServiceController {
 
   @Autowired
@@ -27,8 +29,9 @@ public class ReservationServiceController {
 
   @GetMapping("/reservation/{reservationId}")
   @Operation(
-          summary = "Get services by reservation",
-          description = "Fetches all services associated with a specific reservation")
+    summary = "Get services by reservation",
+    description = "Fetches all services associated with a specific reservation"
+  )
   public List<ReservationService> getServicosByReservation(
     @PathVariable Long reservationId
   ) {
@@ -37,8 +40,9 @@ public class ReservationServiceController {
 
   @PostMapping("/{reservationId}")
   @Operation(
-          summary = "Add a service to a reservation",
-          description = "Adds a new service to the specified reservation")
+    summary = "Add a service to a reservation",
+    description = "Adds a new service to the specified reservation"
+  )
   public ResponseEntity<ReservationService> addServico(
     @PathVariable Long reservationId,
     @RequestBody ReservationService reservationService
@@ -50,8 +54,9 @@ public class ReservationServiceController {
 
   @PutMapping("/{reservationId}/{servicoId}")
   @Operation(
-          summary = "Update a service for a reservation",
-          description = "Updates the details of an existing service for a reservation")
+    summary = "Update a service for a reservation",
+    description = "Updates the details of an existing service for a reservation"
+  )
   public ResponseEntity<ReservationService> updateServico(
     @PathVariable Long reservationId,
     @PathVariable Long servicoId,
@@ -68,8 +73,9 @@ public class ReservationServiceController {
 
   @DeleteMapping("/{reservationId}/{serviceId}")
   @Operation(
-          summary = "Delete a service from a reservation",
-          description = "Removes a service from the specified reservation")
+    summary = "Delete a service from a reservation",
+    description = "Removes a service from the specified reservation"
+  )
   public ResponseEntity<Void> deleteServico(
     @PathVariable Long reservationId,
     @PathVariable Long servicoId

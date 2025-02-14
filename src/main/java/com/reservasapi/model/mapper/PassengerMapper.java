@@ -1,39 +1,30 @@
 package com.reservasapi.model.mapper;
 
 import com.reservasapi.DTO.PassengerDTO;
-import com.reservasapi.DTO.ReservationDTO;
 import com.reservasapi.model.passenger.Passenger;
-import com.reservasapi.model.reservation.Reservation;
-import java.util.ArrayList;
-import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class PassengerMapper {
+@Mapper
+public interface PassengerMapper extends BaseMapper {
+  @Mapping(target = "name", source = "name")
+  @Mapping(target = "age", source = "age")
+  @Mapping(target = "type", source = "type")
+  @Mapping(
+    target = "reservations",
+    source = "reservations",
+    qualifiedByName = RESERVATION_DTO
+  )
+  PassengerDTO toPassengerDTO(Passenger passenger);
 
-  public static PassengerDTO toPassengerDTO(Passenger passenger) {
-    List<ReservationDTO> reservationDTOS = new ArrayList<>();
-    for (Reservation reservation : passenger.getReservations()) {
-      reservationDTOS.add(ReservationMapper.toReservationDTO(reservation));
-    }
-
-    return PassengerDTO.builder()
-      .name(passenger.getName())
-      .age(passenger.getAge())
-      .type(passenger.getType())
-      .reservations(reservationDTOS)
-      .build();
-  }
-
-  public static Passenger toPassenger(PassengerDTO passengerDTO) {
-    List<Reservation> reservations = new ArrayList<>();
-    for (ReservationDTO reservationDTO : passengerDTO.getReservations()) {
-      reservations.add(ReservationMapper.toReservation(reservationDTO));
-    }
-
-    return Passenger.builder()
-      .name(passengerDTO.getName())
-      .age(passengerDTO.getAge())
-      .type(passengerDTO.getType())
-      .reservations(reservations)
-      .build();
-  }
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "name", source = "name")
+  @Mapping(target = "age", source = "age")
+  @Mapping(target = "type", source = "type")
+  @Mapping(
+    target = "reservations",
+    source = "reservations",
+    qualifiedByName = RESERVATION
+  )
+  Passenger toPassenger(PassengerDTO passengerDTO);
 }

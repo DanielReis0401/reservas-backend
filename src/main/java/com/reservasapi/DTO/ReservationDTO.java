@@ -17,4 +17,5 @@ public class ReservationDTO {
   private LocalDate creationDate;
   private List<PassengerDTO> passengers;
   private List<ReservationServiceDTO> services;
+  private double totalPrice;
 }
