@@ -1,5 +1,6 @@
 package com.reservasapi.controller;
 
+import com.reservasapi.DTO.PassengerDTO;
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.service.PassengerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,10 +19,6 @@ public class PassengerController {
   private PassengerService passengerService;
 
   @GetMapping("/reservation/{reservationId}")
-  @Operation(
-    summary = "Get a list of Passengers of that Reservation ID",
-    description = " Return a list of Passengers of a Reservation"
-  )
   public List<Passenger> getPassengersByReservation(
     @PathVariable Long reservationId
   ) {
@@ -31,10 +28,10 @@ public class PassengerController {
   @PostMapping("/{reservationId}")
   public ResponseEntity<Passenger> addPassenger(
     @PathVariable Long reservationId,
-    @RequestBody Passenger passenger
+    @RequestBody PassengerDTO passengerDTO
   ) {
     return ResponseEntity.ok(
-      passengerService.addPassenger(reservationId, passenger)
+      passengerService.addPassenger(reservationId, passengerDTO)
     );
   }
 

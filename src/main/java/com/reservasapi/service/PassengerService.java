@@ -1,5 +1,7 @@
 package com.reservasapi.service;
 
+import com.reservasapi.DTO.PassengerDTO;
+import com.reservasapi.model.mapper.PassengerMapper;
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.PassengerRepository;
@@ -35,12 +37,14 @@ public class PassengerService {
 
   //Adicionar um novo passageiro a uma reserva
   @Transactional
-  public Passenger addPassenger(Long reservationId, Passenger passenger) {
+  public Passenger addPassenger(Long reservationId, PassengerDTO passengerDTO) {
     Optional<Reservation> reservation = reservationRepository.findById(
       reservationId
     );
     if (reservation.isPresent()) {
-      return passengerRepository.save(passenger); //Guarda o passageiro na database
+      return passengerRepository.save(
+        PassengerMapper.toPassenger(passengerDTO)
+      ); //Guarda o passageiro na database
     } else {
       throw new RuntimeException(
         "Reservation not found with ID: " + reservationId
