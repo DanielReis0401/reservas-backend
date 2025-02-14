@@ -30,10 +30,10 @@ mvn clean install
 ./startDb.sh
 ```
 
-### Run the Application
+### Run the com.reservasapi.Application
 
 ```sh
-mvn spring-boot:run
+./startApplication.sh
 ```
 
 The application will start on `http://localhost:8080`.
