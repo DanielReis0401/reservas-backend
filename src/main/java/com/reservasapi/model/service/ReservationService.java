@@ -1,4 +1,4 @@
-package com.reservasapi.model.servico;
+package com.reservasapi.model.service;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

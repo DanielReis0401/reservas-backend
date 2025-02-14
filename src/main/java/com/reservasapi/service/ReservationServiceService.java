@@ -1,7 +1,7 @@
 package com.reservasapi.service;
 
 import com.reservasapi.model.reservation.Reservation;
-import com.reservasapi.model.servico.ReservationService;
+import com.reservasapi.model.service.ReservationService;
 import com.reservasapi.repository.ReservationRepository;
 import com.reservasapi.repository.ReservationServiceRepository;
 import jakarta.transaction.Transactional;

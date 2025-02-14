@@ -1,6 +1,6 @@
 package com.reservasapi.repository;
 
-import com.reservasapi.model.servico.ReservationService;
+import com.reservasapi.model.service.ReservationService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

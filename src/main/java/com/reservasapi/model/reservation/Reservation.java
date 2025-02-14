@@ -1,7 +1,7 @@
 package com.reservasapi.model.reservation;
 
 import com.reservasapi.model.passenger.Passenger;
-import com.reservasapi.model.servico.ReservationService;
+import com.reservasapi.model.service.ReservationService;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

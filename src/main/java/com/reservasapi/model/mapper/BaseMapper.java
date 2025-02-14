@@ -5,7 +5,7 @@ import com.reservasapi.dto.ReservationDTO;
 import com.reservasapi.dto.ReservationServiceDTO;
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.model.reservation.Reservation;
-import com.reservasapi.model.servico.ReservationService;
+import com.reservasapi.model.service.ReservationService;
 import java.util.List;
 import org.mapstruct.Named;
 
