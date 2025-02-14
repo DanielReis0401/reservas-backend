@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PassengerRepository extends JpaRepository<Passenger, Long>{
+public interface PassengerRepository extends JpaRepository<Passenger, Long> {
 
     //Encontrar passageiros por nome
     List<Passenger> findByName(String name);

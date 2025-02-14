@@ -14,33 +14,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reservasapi.model.servico.ReservationService;
-import com.reservasapi.service.ServicoService;
+import com.reservasapi.service.ReservationServiceService;
 
 @RestController
 @RequestMapping
-public class ServicoController {
+public class ReservationServiceController {
 
     @Autowired
-    private ServicoService servicoService;
+    private ReservationServiceService reservationServiceService;
 
     @GetMapping("/reservation/{reservationId}")
     public List<ReservationService> getServicosByReservation(@PathVariable Long reservationId){
-        return servicoService.getServicosByReservation(reservationId);
+        return reservationServiceService.getServicosByReservation(reservationId);
     }
 
     @PostMapping("/{reservationId}")
     public ResponseEntity<ReservationService> addServico(@PathVariable Long reservationId, @RequestBody ReservationService reservationService){
-        return ResponseEntity.ok(servicoService.addServico(reservationId, reservationService));
+        return ResponseEntity.ok(reservationServiceService.addServico(reservationId, reservationService));
     }
 
     @PutMapping("/{reservationId}/{servicoId}")
     public ResponseEntity<ReservationService> updateServico(@PathVariable Long reservationId, @PathVariable Long servicoId, @RequestBody ReservationService updatedService){
-        return ResponseEntity.ok(servicoService.updateServico(reservationId, servicoId, updatedService));
+        return ResponseEntity.ok(reservationServiceService.updateServico(reservationId, servicoId, updatedService));
     }
 
     @DeleteMapping("/{reservationId}/{serviceId}")
     public ResponseEntity<Void> deleteServico(@PathVariable Long reservationId, @PathVariable Long servicoId){
-        servicoService.deleteServico(reservationId, servicoId);
+        reservationServiceService.deleteServico(reservationId, servicoId);
         return ResponseEntity.noContent().build();
     }
 }
