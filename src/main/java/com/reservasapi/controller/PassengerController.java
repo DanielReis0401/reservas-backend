@@ -1,6 +1,6 @@
 package com.reservasapi.controller;
 
-import com.reservasapi.DTO.PassengerDTO;
+import com.reservasapi.dto.PassengerDTO;
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.service.PassengerService;
 import io.swagger.v3.oas.annotations.Operation;

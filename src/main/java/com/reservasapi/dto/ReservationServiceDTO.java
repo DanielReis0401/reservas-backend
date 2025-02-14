@@ -1,4 +1,4 @@
-package com.reservasapi.DTO;
+package com.reservasapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

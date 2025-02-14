@@ -1,6 +1,6 @@
 package com.reservasapi.model.mapper;
 
-import com.reservasapi.DTO.ReservationServiceDTO;
+import com.reservasapi.dto.ReservationServiceDTO;
 import com.reservasapi.model.servico.ReservationService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

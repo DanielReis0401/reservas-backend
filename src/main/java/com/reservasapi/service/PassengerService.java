@@ -1,6 +1,6 @@
 package com.reservasapi.service;
 
-import com.reservasapi.DTO.PassengerDTO;
+import com.reservasapi.dto.PassengerDTO;
 import com.reservasapi.model.mapper.PassengerMapper;
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.model.reservation.Reservation;

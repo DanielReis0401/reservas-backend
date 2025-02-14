@@ -1,4 +1,4 @@
-package com.reservasapi.DTO;
+package com.reservasapi.dto;
 
 import com.reservasapi.model.passenger.PassengerType;
 import java.util.List;
