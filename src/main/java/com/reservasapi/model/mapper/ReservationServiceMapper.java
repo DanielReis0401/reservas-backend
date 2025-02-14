@@ -1,9 +1,7 @@
 package com.reservasapi.model.mapper;
 
 import com.reservasapi.DTO.ReservationServiceDTO;
-import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.model.servico.ReservationService;
-import jakarta.persistence.Column;
 
 public class ReservationServiceMapper {
 
