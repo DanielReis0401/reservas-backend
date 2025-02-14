@@ -39,13 +39,13 @@ public class PassengerController {
   public ResponseEntity<Passenger> updatePassenger(
     @PathVariable Long reservationId,
     @PathVariable Long idPassenger,
-    @RequestBody Passenger updatedPassenger
+    @RequestBody PassengerDTO updatedPassengerDTO
   ) {
     return ResponseEntity.ok(
       passengerService.updatePassenger(
         reservationId,
         idPassenger,
-        updatedPassenger
+        updatedPassengerDTO
       )
     );
   }

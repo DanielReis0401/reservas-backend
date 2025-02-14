@@ -57,7 +57,7 @@ public class PassengerService {
   public Passenger updatePassenger(
     Long reservationId,
     Long passengerId,
-    Passenger updatedPassenger
+    PassengerDTO updatedPassengerDTO
   ) {
     Optional<Reservation> reservation = reservationRepository.findById(
       reservationId
@@ -66,9 +66,9 @@ public class PassengerService {
       Optional<Passenger> passenger = passengerRepository.findById(passengerId);
       if (passenger.isPresent()) {
         Passenger existingPassenger = passenger.get();
-        existingPassenger.setName(updatedPassenger.getName());
-        existingPassenger.setAge(updatedPassenger.getAge());
-        existingPassenger.setType(updatedPassenger.getType());
+        existingPassenger.setName(PassengerMapper.toPassenger(updatedPassengerDTO).getName());
+        existingPassenger.setAge(PassengerMapper.toPassenger(updatedPassengerDTO).getAge());
+        existingPassenger.setType(PassengerMapper.toPassenger(updatedPassengerDTO).getType());
         return passengerRepository.save(existingPassenger); //Guarda o passageiro apos o update
       } else {
         throw new RuntimeException(
