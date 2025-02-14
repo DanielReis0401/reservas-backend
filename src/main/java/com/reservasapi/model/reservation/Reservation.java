@@ -2,21 +2,8 @@ package com.reservasapi.model.reservation;
 
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.model.servico.ReservationService;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "reservations")
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,7 +32,9 @@ public class Reservation {
     @Setter(AccessLevel.NONE)
     private double totalPrice;
 
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+    @JoinTable(name = "PASSENGER_RESERVATION_MAPPING", joinColumns = @JoinColumn(name = "passenger_id"),
+            inverseJoinColumns = @JoinColumn(name = "reservation_id"))
     private List<Passenger> passengers = new ArrayList<>();
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)

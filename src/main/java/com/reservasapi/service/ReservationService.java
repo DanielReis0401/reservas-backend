@@ -2,6 +2,7 @@ package com.reservasapi.service;
 
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.ReservationRepository;
+import com.reservasapi.repository.ReservationServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
