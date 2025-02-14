@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateReservationRequest {
 
-    private ReservationDTO reservationDTO;
+  private ReservationDTO reservationDTO;
 }
