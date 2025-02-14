@@ -6,6 +6,6 @@ java -XX:+UseG1GC \
     -Xmx1024m \
     -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
     -jar target/reservas-backend-*.jar \
-    --systemproperties src/main/resources/app.properties \
+    --systemproperties src/main/resources/application.properties \
     --nocluster \
     --port 8080
