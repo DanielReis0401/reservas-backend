@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     //Encontrar reservas pelo nome do cliente
-    List<Reservation> findByCostumerName(String costumerName);
+    List<Reservation> findByCustomerName(String customerName);
 
     //Listar todas as reservas
     List<Reservation> findAll();

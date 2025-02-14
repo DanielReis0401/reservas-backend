@@ -1,4 +1,4 @@
-package com.reservasapi.reservas_backend.config;
+package com.reservasapi.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

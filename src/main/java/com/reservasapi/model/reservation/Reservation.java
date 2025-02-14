@@ -37,7 +37,8 @@ public class Reservation {
             inverseJoinColumns = @JoinColumn(name = "reservation_id"))
     private List<Passenger> passengers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "service_id")
     private List<ReservationService> services = new ArrayList<>();
 
     /**
