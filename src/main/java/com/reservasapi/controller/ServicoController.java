@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.reservasapi.model.servico.Servico;
+import com.reservasapi.model.servico.ReservationService;
 import com.reservasapi.service.ServicoService;
 
 @RestController
@@ -24,17 +24,17 @@ public class ServicoController {
     private ServicoService servicoService;
 
     @GetMapping("/reservation/{reservationId}")
-    public List<Servico> getServicosByReservation(@PathVariable Long reservationId){
+    public List<ReservationService> getServicosByReservation(@PathVariable Long reservationId){
         return servicoService.getServicosByReservation(reservationId);
     }
 
     @PostMapping("/{reservationId}")
-    public ResponseEntity<Servico> addServico(@PathVariable Long reservationId, @RequestBody Servico servico){
-        return ResponseEntity.ok(servicoService.addServico(reservationId, servico));
+    public ResponseEntity<ReservationService> addServico(@PathVariable Long reservationId, @RequestBody ReservationService reservationService){
+        return ResponseEntity.ok(servicoService.addServico(reservationId, reservationService));
     }
 
     @PutMapping("/{reservationId}/{servicoId}")
-    public ResponseEntity<Servico> updateServico(@PathVariable Long reservationId, @PathVariable Long servicoId, @RequestBody Servico updatedService){
+    public ResponseEntity<ReservationService> updateServico(@PathVariable Long reservationId, @PathVariable Long servicoId, @RequestBody ReservationService updatedService){
         return ResponseEntity.ok(servicoService.updateServico(reservationId, servicoId, updatedService));
     }
 

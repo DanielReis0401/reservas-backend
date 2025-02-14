@@ -6,18 +6,18 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.reservasapi.model.servico.Servico;
+import com.reservasapi.model.servico.ReservationService;
 
 @Repository
-public interface ServicoRepository extends JpaRepository<Servico, Long>{
+public interface ServicoRepository extends JpaRepository<ReservationService, Long>{
 
     //Encontrar servicos por nome
-    List<Servico> findByName(String name);
+    List<ReservationService> findByName(String name);
 
     //Listar todos os servicos
-    List<Servico> findAll();
+    List<ReservationService> findAll();
 
     //Encontrar servico por ID
-    Optional<Servico> findById(Long id);
+    Optional<ReservationService> findById(Long id);
 
 }

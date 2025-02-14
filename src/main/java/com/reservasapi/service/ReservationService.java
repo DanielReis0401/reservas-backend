@@ -39,7 +39,7 @@ public class ReservationService {
             reservation.setCustomerName(updatedReservation.getCustomerName());
             reservation.setReservationDate(updatedReservation.getReservationDate());
             reservation.setPassengers(updatedReservation.getPassengers());
-            reservation.setServicos(updatedReservation.getServicos());
+            reservation.setReservationServices(updatedReservation.getReservationServices());
 
             //Recalcular o preco total
             reservation.calculateTotalPrice();

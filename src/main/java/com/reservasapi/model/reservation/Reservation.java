@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.reservasapi.model.passenger.Passenger;
-import com.reservasapi.model.servico.Servico;
+import com.reservasapi.model.servico.ReservationService;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,24 +40,25 @@ public class Reservation {
     private List<Passenger> passengers;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Servico> servicos;
+    private List<ReservationService> reservationServices;
 
     @Column(name = "total_price")
-    private Double totalPrice;
-    
-    public void calculateTotalPrice(){
-        if(servicos != null && passengers != null){     //Verifica se as listas nao sao nulas
-            this.totalPrice = servicos.stream()         //Percorre a lista de servicos
-                .mapToDouble(Servico::getPrice)        //Obtem o preco de cada servico
-                .sum() * passengers.size();             //Soma todos os precos e multiplica pelo numero de passageiros
-        } else {
-            this.totalPrice = 0.0;                      //Se nao houver servicos ou passageiros define o total como zero
-        }
+    private double totalPrice = 0.0;
+
+    /**
+     * Calculates the total price of the reservation based on the services and the number of passengers.
+     */
+    public void calculateTotalPrice() {
+        if (reservationServices == null || passengers == null)
+            return;
+
+        this.totalPrice = reservationServices.stream().mapToDouble(ReservationService::getPrice).sum() // Sum of the prices of all services
+                * passengers.size();
     }
 
     @PrePersist
     @PreUpdate
-    private void preSave(){
+    private void preSave() {
         calculateTotalPrice();
     }
 }

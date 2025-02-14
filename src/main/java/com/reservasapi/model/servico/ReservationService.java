@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Servico {
+public class ReservationService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

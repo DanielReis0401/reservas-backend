@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.reservasapi.model.reservation.Reservation;
-import com.reservasapi.model.servico.Servico;
+import com.reservasapi.model.servico.ReservationService;
 import com.reservasapi.repository.ReservationRepository;
 import com.reservasapi.repository.ServicoRepository;
 
@@ -24,10 +24,10 @@ public class ServicoService {
 
 
     //Listar os servicos de uma reserva
-    public List<Servico> getServicosByReservation(Long reservationId){
+    public List<ReservationService> getServicosByReservation(Long reservationId){
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
         if(reservation.isPresent()){
-            return reservation.get().getServicos();
+            return reservation.get().getReservationServices();
         } else {
             throw new RuntimeException("Reservation not found with ID: " + reservationId); 
         }
@@ -35,20 +35,20 @@ public class ServicoService {
 
     //Adicionar um novo serviço a uma reserva
     @Transactional
-    public Servico addServico(Long reservationId, Servico servico){
+    public ReservationService addServico(Long reservationId, ReservationService reservationService){
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
         if(reservation.isPresent()){
             Reservation existingReservation = reservation.get();
-            servico.setReservation(existingReservation);
+            reservationService.setReservation(existingReservation);
 
             //Guarda o servico
-            Servico savedServico = servicoRepository.save(servico);
+            ReservationService savedReservationService = servicoRepository.save(reservationService);
 
             //Atualiza o preco total da reserva
             existingReservation.calculateTotalPrice();
             reservationRepository.save(existingReservation);
 
-            return savedServico;
+            return savedReservationService;
         } else {
             throw new RuntimeException("Reservation not found with ID: " + reservationId);
         }
@@ -56,23 +56,23 @@ public class ServicoService {
 
     //Update um servico existente
     @Transactional
-    public Servico updateServico(Long reservationId, Long servicoId, Servico updatedServico){
+    public ReservationService updateServico(Long reservationId, Long servicoId, ReservationService updatedReservationService){
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
         if(reservation.isPresent()){
-            Optional<Servico> servico = servicoRepository.findById(servicoId);
+            Optional<ReservationService> servico = servicoRepository.findById(servicoId);
             if(servico.isPresent()){
-                Servico existingServico = servico.get();
-                existingServico.setName(updatedServico.getName());
-                existingServico.setDescription(updatedServico.getDescription());
-                existingServico.setPrice(updatedServico.getPrice());
+                ReservationService existingReservationService = servico.get();
+                existingReservationService.setName(updatedReservationService.getName());
+                existingReservationService.setDescription(updatedReservationService.getDescription());
+                existingReservationService.setPrice(updatedReservationService.getPrice());
 
-                Servico savedServico = servicoRepository.save(existingServico);
+                ReservationService savedReservationService = servicoRepository.save(existingReservationService);
 
                 //Atualiza o preco total da reserva
                 reservation.get().calculateTotalPrice();
                 reservationRepository.save(reservation.get());
 
-                return savedServico;
+                return savedReservationService;
             } else {
                 throw new RuntimeException("Service not found with ID: " + servicoId);
             }
@@ -87,10 +87,10 @@ public class ServicoService {
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
         if(reservation.isPresent()){
             Reservation existingReservation = reservation.get();
-            Optional<Servico> servico = servicoRepository.findById(servicoId);
+            Optional<ReservationService> servico = servicoRepository.findById(servicoId);
             if(servico.isPresent()){
-                Servico existingServico = servico.get();
-                if(existingServico.getReservation().equals(existingReservation)){
+                ReservationService existingReservationService = servico.get();
+                if(existingReservationService.getReservation().equals(existingReservation)){
                     servicoRepository.deleteById(servicoId);
 
                     //Atualiza o preco total da reserva
