@@ -1,15 +1,15 @@
 package com.reservasapi.dto.requests;
 
 import com.reservasapi.dto.PassengerDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode
-@Data
-@AllArgsConstructor
+@ToString
+@Getter
 @NoArgsConstructor
 @SuperBuilder
 public class PassengerRequest {

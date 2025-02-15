@@ -1,12 +1,9 @@
 package com.reservasapi.controller;
 
 import com.reservasapi.dto.PassengerDTO;
-import com.reservasapi.dto.requests.AddPassengerRequest;
-import com.reservasapi.dto.requests.DeletePassengerRequest;
-import com.reservasapi.dto.requests.UpdatePassengerRequest;
-import com.reservasapi.model.passenger.Passenger;
+import com.reservasapi.dto.requests.PassengerRequest;
+import com.reservasapi.dto.responses.PassengersResponse;
 import com.reservasapi.service.PassengerService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,31 +21,27 @@ public class PassengerController implements IPassengerController {
     @Autowired
     private PassengerService passengerService;
 
-    @GetMapping("/reservation/{reservationId}")
-    public ResponseEntity<List<PassengerDTO>> getPassengersByReservation(
+    @GetMapping("/{reservationId}")
+    public ResponseEntity<PassengersResponse> getPassengers(
         @PathVariable Long reservationId
     ) {
-        return ResponseEntity.ok(
-            passengerService.getPassengersByReservation(reservationId)
-        );
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @PostMapping
-    public ResponseEntity<Passenger> addPassenger(AddPassengerRequest request) {
+    public ResponseEntity<PassengerDTO> addPassenger(PassengerRequest request) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
     @PutMapping
-    public ResponseEntity<Passenger> updatePassenger(
-        UpdatePassengerRequest request
+    public ResponseEntity<PassengerDTO> updatePassenger(
+        PassengerRequest request
     ) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deletePassenger(
-        DeletePassengerRequest request
-    ) {
+    public ResponseEntity<Void> deletePassenger(PassengerRequest request) {
         throw new UnsupportedOperationException("Not implemented");
     }
 }
