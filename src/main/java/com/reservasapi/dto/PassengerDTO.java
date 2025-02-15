@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PassengerDTO {
 
+    private Long id;
     private String name;
     private int age;
     private PassengerType type;
