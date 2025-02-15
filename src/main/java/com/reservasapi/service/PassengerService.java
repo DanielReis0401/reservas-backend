@@ -50,24 +50,29 @@ public class PassengerService {
     }
 
     @Transactional
-    public PassengerDTO addPassenger(PassengerRequest request) {
+    public PassengerDTO addPassenger(
+        Long reservationId,
+        PassengerDTO passengerDTO
+    ) {
+        // Buscar a reserva pelo ID
         Reservation reservation = reservationRepository
-            .findById(request.getReservationId())
+            .findById(reservationId)
             .orElseThrow(() ->
                 new NotFoundException(
-                    RESERVATION_NOT_FOUND + request.getReservationId()
+                    "Reserva não encontrada com ID: " + reservationId
                 )
             );
 
-        Passenger passenger = Optional.ofNullable(
-            request.getPassenger().getId()
-        )
+        // Verificar se o passageiro já existe, caso contrário, criar um novo
+        Passenger passenger = Optional.ofNullable(passengerDTO.getId())
             .flatMap(passengerRepository::findById)
-            .orElseGet(() -> MAPPER.toPassenger(request.getPassenger()));
+            .orElseGet(() -> MAPPER.toPassenger(passengerDTO));
 
+        // Adicionar o passageiro à reserva
         passenger.addReservation(reservation);
         passengerRepository.save(passenger);
 
+        // Retornar o PassengerDTO com os dados do passageiro atualizado
         return MAPPER.toPassengerDTO(passenger);
     }
 
@@ -78,58 +83,61 @@ public class PassengerService {
         Long passengerId,
         PassengerDTO updatedPassengerDTO
     ) {
-        Optional<Reservation> reservation = reservationRepository.findById(
-            reservationId
-        );
-        if (reservation.isPresent()) {
-            Optional<Passenger> passenger = passengerRepository.findById(
-                passengerId
+        // Buscar a reserva
+        Reservation reservation = reservationRepository
+            .findById(reservationId)
+            .orElseThrow(() ->
+                new RuntimeException(
+                    "Reservation not found with ID: " + reservationId
+                )
             );
-            if (passenger.isPresent()) {
-                Passenger existingPassenger = passenger.get();
-                existingPassenger.setName(
-                    MAPPER.toPassenger(updatedPassengerDTO).getName()
-                );
-                existingPassenger.setAge(
-                    MAPPER.toPassenger(updatedPassengerDTO).getAge()
-                );
-                existingPassenger.setType(
-                    MAPPER.toPassenger(updatedPassengerDTO).getType()
-                );
-                return passengerRepository.save(existingPassenger); //Guarda o passageiro apos o update
-            } else {
-                throw new RuntimeException(
+
+        // Buscar o passageiro
+        Passenger existingPassenger = passengerRepository
+            .findById(passengerId)
+            .orElseThrow(() ->
+                new RuntimeException(
                     "Passenger not found with ID: " + passengerId
-                );
-            }
-        } else {
-            throw new RuntimeException(
-                "Reservation not found with ID: " + reservationId
+                )
             );
-        }
+
+        // Atualizar os dados do passageiro
+        existingPassenger.setName(updatedPassengerDTO.getName());
+        existingPassenger.setAge(updatedPassengerDTO.getAge());
+        existingPassenger.setType(updatedPassengerDTO.getType());
+
+        // Salvar o passageiro atualizado
+        return passengerRepository.save(existingPassenger);
     }
 
     //Apagar passageiro de uma reserva
     @Transactional
     public void deletePassenger(Long reservationId, Long passengerId) {
-        /* TODO: Fix
+        // Verificar se a reserva existe
+        Reservation reservation = reservationRepository
+            .findById(reservationId)
+            .orElseThrow(() ->
+                new NotFoundException(
+                    "Reservation not found with ID: " + reservationId
+                )
+            );
 
-        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
-        if (reservation.isPresent()) {
-            Optional<Passenger> passenger = passengerRepository.findById(passengerId);
-            if (passenger.isPresent()) {
-                Passenger existingPassenger = passenger.get();
-                if (existingPassenger.getReservation().equals(reservation.get())) {
-                    passengerRepository.deleteById(passengerId);    //Apaga o passeiro 
-                } else {
-                    throw new RuntimeException("This passenger does not belong to the reservation with ID: " + reservationId);
-                }
-            } else {
-                throw new RuntimeException("Passenger not found with ID: " + passengerId);
-            }
-        } else {
-            throw new RuntimeException("Reservation not found with ID: " + reservationId);
+        // Verificar se o passageiro existe
+        Passenger passenger = passengerRepository
+            .findById(passengerId)
+            .orElseThrow(() ->
+                new NotFoundException(
+                    "Passenger not found with ID: " + passengerId
+                )
+            );
+
+        // Remover a associação do passageiro com a reserva, se existir
+        if (reservation.getPassengers().contains(passenger)) {
+            reservation.getPassengers().remove(passenger);
+            reservationRepository.save(reservation); // Salvar a reserva com a associação removida
         }
-         */
+
+        // Excluir o passageiro
+        passengerRepository.delete(passenger); // Excluir o passageiro
     }
 }

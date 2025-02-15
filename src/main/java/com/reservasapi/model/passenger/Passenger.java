@@ -63,6 +63,9 @@ public class Passenger {
      * @param reservation Reservation to be added
      */
     public void addReservation(Reservation reservation) {
+        if (this.reservations == null) {
+            this.reservations = new ArrayList<>(); // Inicializa a lista se estiver null
+        }
         this.reservations.add(reservation);
     }
 
