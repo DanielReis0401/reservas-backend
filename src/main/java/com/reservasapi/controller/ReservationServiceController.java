@@ -1,5 +1,6 @@
 package com.reservasapi.controller;
 
+import com.reservasapi.dto.ReservationServiceDTO;
 import com.reservasapi.model.service.ReservationService;
 import com.reservasapi.service.ReservationServiceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,10 +46,10 @@ public class ReservationServiceController {
   )
   public ResponseEntity<ReservationService> addServico(
     @PathVariable Long reservationId,
-    @RequestBody ReservationService reservationService
+    @RequestBody ReservationServiceDTO reservationServiceDTO
   ) {
     return ResponseEntity.ok(
-      reservationServiceService.addServico(reservationId, reservationService)
+      reservationServiceService.addServico(reservationId, reservationServiceDTO)
     );
   }
 
