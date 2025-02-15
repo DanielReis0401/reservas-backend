@@ -19,6 +19,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,6 +65,7 @@ public class Reservation {
         inverseJoinColumns = @JoinColumn(name = "passenger_id")
     )
     @Builder.Default
+    @Setter(AccessLevel.NONE)
     private List<Passenger> passengers = new ArrayList<>();
 
     @OneToMany(
@@ -73,6 +75,7 @@ public class Reservation {
     )
     @JoinColumn(name = "reservation_id")
     @Builder.Default
+    @Setter(AccessLevel.NONE)
     private List<ReservationService> services = new ArrayList<>();
 
     /**
@@ -109,6 +112,20 @@ public class Reservation {
      */
     public void removeService(ReservationService service) {
         services.remove(service);
+    }
+
+    public void setPassengers(List<Passenger> passengers) {
+        this.passengers.clear();
+        if (Objects.nonNull(passengers)) {
+            this.passengers.addAll(passengers);
+        }
+    }
+
+    public void setServices(List<ReservationService> services) {
+        this.services.clear();
+        if (Objects.nonNull(services)) {
+            this.services.addAll(services);
+        }
     }
 
     /**

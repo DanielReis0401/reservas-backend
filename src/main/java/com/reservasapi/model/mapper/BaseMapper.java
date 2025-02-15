@@ -7,6 +7,7 @@ import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.model.service.ReservationService;
 import java.util.List;
+import java.util.Objects;
 import org.mapstruct.Named;
 
 public interface BaseMapper {
@@ -34,17 +35,19 @@ public interface BaseMapper {
 
     @Named(PASSENGER)
     default List<Passenger> toPassenger(List<PassengerDTO> passengerDTOs) {
-        return passengerDTOs
-            .stream()
-            .map(passengerDto ->
-                Passenger.builder()
-                    .id(passengerDto.getId())
-                    .name(passengerDto.getName())
-                    .age(passengerDto.getAge())
-                    .type(passengerDto.getType())
-                    .build()
-            )
-            .toList();
+        return Objects.nonNull(passengerDTOs)
+            ? passengerDTOs
+                .stream()
+                .map(passengerDto ->
+                    Passenger.builder()
+                        .id(passengerDto.getId())
+                        .name(passengerDto.getName())
+                        .age(passengerDto.getAge())
+                        .type(passengerDto.getType())
+                        .build()
+                )
+                .toList()
+            : null;
     }
 
     @Named(RES_SERVICE_DTO)
@@ -67,16 +70,18 @@ public interface BaseMapper {
     default List<ReservationService> toReservationService(
         List<ReservationServiceDTO> reservationServiceDTOs
     ) {
-        return reservationServiceDTOs
-            .stream()
-            .map(resServiceDto ->
-                ReservationService.builder()
-                    .name(resServiceDto.getName())
-                    .description(resServiceDto.getDescription())
-                    .price(resServiceDto.getPrice())
-                    .build()
-            )
-            .toList();
+        return Objects.nonNull(reservationServiceDTOs)
+            ? reservationServiceDTOs
+                .stream()
+                .map(resServiceDto ->
+                    ReservationService.builder()
+                        .name(resServiceDto.getName())
+                        .description(resServiceDto.getDescription())
+                        .price(resServiceDto.getPrice())
+                        .build()
+                )
+                .toList()
+            : null;
     }
 
     @Named(RESERVATION_DTO)
@@ -102,18 +107,20 @@ public interface BaseMapper {
     default List<Reservation> toReservation(
         List<ReservationDTO> reservationDTOs
     ) {
-        return reservationDTOs
-            .stream()
-            .map(reservationDto ->
-                Reservation.builder()
-                    .customerName(reservationDto.getCustomerName())
-                    .creationDate(reservationDto.getCreationDate())
-                    .services(
-                        toReservationService(reservationDto.getServices())
-                    )
-                    .passengers(toPassenger(reservationDto.getPassengers()))
-                    .build()
-            )
-            .toList();
+        return (Objects.nonNull(reservationDTOs))
+            ? reservationDTOs
+                .stream()
+                .map(reservationDto ->
+                    Reservation.builder()
+                        .customerName(reservationDto.getCustomerName())
+                        .creationDate(reservationDto.getCreationDate())
+                        .services(
+                            toReservationService(reservationDto.getServices())
+                        )
+                        .passengers(toPassenger(reservationDto.getPassengers()))
+                        .build()
+                )
+                .toList()
+            : null;
     }
 }

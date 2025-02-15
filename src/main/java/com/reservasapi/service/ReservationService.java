@@ -2,6 +2,7 @@ package com.reservasapi.service;
 
 import com.reservasapi.dto.ReservationDTO;
 import com.reservasapi.model.mapper.ReservationMapper;
+import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.ReservationRepository;
 import java.util.ArrayList;
