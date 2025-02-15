@@ -1,5 +1,8 @@
 package com.reservasapi.service;
 
+import com.reservasapi.dto.ReservationServiceDTO;
+import com.reservasapi.model.mapper.PassengerMapper;
+import com.reservasapi.model.mapper.ReservationServiceMapper;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.model.service.ReservationService;
 import com.reservasapi.repository.ReservationRepository;
@@ -7,11 +10,16 @@ import com.reservasapi.repository.ReservationServiceRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReservationServiceService {
+
+  private static final ReservationServiceMapper MAPPER = Mappers.getMapper(
+    ReservationServiceMapper.class
+  );
 
   @Autowired
   private ReservationServiceRepository reservationServiceRepository;
@@ -37,7 +45,7 @@ public class ReservationServiceService {
   @Transactional
   public ReservationService addServico(
     Long reservationId,
-    ReservationService reservationService
+    ReservationServiceDTO reservationServiceDTO
   ) {
     Optional<Reservation> reservation = reservationRepository.findById(
       reservationId
@@ -47,7 +55,9 @@ public class ReservationServiceService {
 
       //Guarda o servico
       ReservationService savedReservationService =
-        reservationServiceRepository.save(reservationService);
+        reservationServiceRepository.save(
+          MAPPER.toReservationService(reservationServiceDTO)
+        );
 
       reservationRepository.save(existingReservation);
 
