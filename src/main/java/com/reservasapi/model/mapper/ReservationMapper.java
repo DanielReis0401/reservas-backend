@@ -21,4 +21,20 @@ public interface ReservationMapper extends BaseMapper {
     qualifiedByName = PASSENGER_DTO
   )
   ReservationDTO toReservationDTO(Reservation reservation);
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "customerName", source = "customerName")
+  @Mapping(target = "creationDate", source = "creationDate")
+  @Mapping(target = "totalPrice", source = "totalPrice")
+  @Mapping(
+    target = "services",
+    source = "services",
+    qualifiedByName = RES_SERVICE
+  )
+  @Mapping(
+    target = "passengers",
+    source = "passengers",
+    qualifiedByName = PASSENGER
+  )
+  Reservation toReservation(ReservationDTO reservationDTO);
 }
