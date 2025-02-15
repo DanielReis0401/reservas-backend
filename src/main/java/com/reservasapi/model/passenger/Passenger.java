@@ -56,4 +56,22 @@ public class Passenger {
     @Schema(description = "List of reservations associated with the Passenger")
     @Builder.Default
     private List<Reservation> reservations = new ArrayList<>();
+
+    /**
+     * Add a reservation to the list of reservations associated with the Passenger
+     *
+     * @param reservation Reservation to be added
+     */
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
+    }
+
+    /**
+     * Remove a reservation from the list of reservations associated with the Passenger
+     *
+     * @param reservation Reservation to be removed
+     */
+    public void removeReservation(Reservation reservation) {
+        this.reservations.remove(reservation);
+    }
 }

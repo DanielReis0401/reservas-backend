@@ -25,12 +25,12 @@ public class PassengerController implements IPassengerController {
     public ResponseEntity<PassengersResponse> getPassengers(
         @PathVariable Long reservationId
     ) {
-        throw new UnsupportedOperationException("Not implemented");
+        return ResponseEntity.ok(passengerService.getPassengers(reservationId));
     }
 
     @PostMapping
     public ResponseEntity<PassengerDTO> addPassenger(PassengerRequest request) {
-        throw new UnsupportedOperationException("Not implemented");
+        return ResponseEntity.ok(passengerService.addPassenger(request));
     }
 
     @PutMapping

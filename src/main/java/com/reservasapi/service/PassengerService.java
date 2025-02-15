@@ -1,14 +1,15 @@
 package com.reservasapi.service;
 
 import com.reservasapi.dto.PassengerDTO;
+import com.reservasapi.dto.requests.PassengerRequest;
+import com.reservasapi.dto.responses.PassengersResponse;
+import com.reservasapi.exceptions.NotFoundException;
 import com.reservasapi.model.mapper.PassengerMapper;
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.PassengerRepository;
 import com.reservasapi.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,46 +22,53 @@ public class PassengerService {
         PassengerMapper.class
     );
 
+    private static final String RESERVATION_NOT_FOUND =
+        "Reservation not found with ID: ";
+
     @Autowired
     private PassengerRepository passengerRepository;
 
     @Autowired
     private ReservationRepository reservationRepository;
 
-    //Listar passageiros de uma reserva
-    public List<PassengerDTO> getPassengersByReservation(Long reservationId) {
-        Optional<Reservation> reservation = reservationRepository.findById(
-            reservationId
-        );
-        if (reservation.isPresent()) {
-            List<PassengerDTO> passengerDTOS = new ArrayList<>();
-            for (Passenger passenger : reservation.get().getPassengers()) {
-                passengerDTOS.add(MAPPER.toPassengerDTO(passenger));
-            }
-            return passengerDTOS; //Retorna os passageiros de uma reserva
-        } else {
-            throw new RuntimeException(
-                "Reservation not found with ID: " + reservationId
+    public PassengersResponse getPassengers(Long reservationId) {
+        Reservation reservation = reservationRepository
+            .findById(reservationId)
+            .orElseThrow(() ->
+                new NotFoundException(RESERVATION_NOT_FOUND + reservationId)
             );
-        }
+
+        return PassengersResponse.builder()
+            .passengers(
+                reservation
+                    .getPassengers()
+                    .stream()
+                    .map(MAPPER::toPassengerDTO)
+                    .toList()
+            )
+            .build();
     }
 
-    //Adicionar um novo passageiro a uma reserva
     @Transactional
-    public Passenger addPassenger(
-        Long reservationId,
-        PassengerDTO passengerDTO
-    ) {
-        Optional<Reservation> reservation = reservationRepository.findById(
-            reservationId
-        );
-        if (reservation.isPresent()) {
-            return passengerRepository.save(MAPPER.toPassenger(passengerDTO)); //Guarda o passageiro na database
-        } else {
-            throw new RuntimeException(
-                "Reservation not found with ID: " + reservationId
+    public PassengerDTO addPassenger(PassengerRequest request) {
+        Reservation reservation = reservationRepository
+            .findById(request.getReservationId())
+            .orElseThrow(() ->
+                new NotFoundException(
+                    RESERVATION_NOT_FOUND + request.getReservationId()
+                )
             );
-        }
+
+        Passenger passenger = Optional.ofNullable(
+            request.getPassenger().getId()
+        )
+            .flatMap(passengerRepository::findById)
+            .orElseGet(() -> MAPPER.toPassenger(request.getPassenger()));
+
+        passenger.addReservation(reservation);
+        passengerRepository.save(passenger);
+
+        return MAPPER.toPassengerDTO(passenger);
     }
 
     //Update a um passageiro
