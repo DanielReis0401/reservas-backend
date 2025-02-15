@@ -137,7 +137,6 @@
                 </executions>
                 <configuration>
                     <prettierJavaVersion>2.6.4</prettierJavaVersion>
-                    <tabWidth>4</tabWidth>
                 </configuration>
             </plugin>
         </plugins>
