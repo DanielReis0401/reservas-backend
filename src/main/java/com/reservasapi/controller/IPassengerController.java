@@ -1,7 +1,6 @@
 package com.reservasapi.controller;
 
 import com.reservasapi.dto.PassengerDTO;
-import com.reservasapi.dto.requests.PassengerRequest;
 import com.reservasapi.dto.responses.ErrorResponse;
 import com.reservasapi.dto.responses.PassengersResponse;
 import io.swagger.v3.oas.annotations.Operation;
