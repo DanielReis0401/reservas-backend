@@ -60,8 +60,8 @@ public class Reservation {
     )
     @JoinTable(
         name = "PASSENGER_RESERVATION_MAPPING",
-        joinColumns = @JoinColumn(name = "passenger_id"),
-        inverseJoinColumns = @JoinColumn(name = "reservation_id")
+        joinColumns = @JoinColumn(name = "reservation_id"),
+        inverseJoinColumns = @JoinColumn(name = "passenger_id")
     )
     @Builder.Default
     private List<Passenger> passengers = new ArrayList<>();
