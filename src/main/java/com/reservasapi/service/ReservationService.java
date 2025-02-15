@@ -4,6 +4,8 @@ import com.reservasapi.dto.ReservationDTO;
 import com.reservasapi.model.mapper.ReservationMapper;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.ReservationRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.mapstruct.factory.Mappers;
@@ -30,8 +32,13 @@ public class ReservationService {
     }
 
     //Procurar uma reserva por ID
-    public Optional<Reservation> getReservationById(Long id) {
-        return reservationRepository.findById(id);
+    public Optional<ReservationDTO> getReservationById(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
+        if (reservation == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(MAPPER.toReservationDTO(reservation));
+        }
     }
 
     //Atualizar uma reserva existente
@@ -76,12 +83,22 @@ public class ReservationService {
     }
 
     //Listar todas as reservas
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+    public List<ReservationDTO> getAllReservations() {
+        List<ReservationDTO> reservationDTOS = new ArrayList<>();
+        List<Reservation> reservations = reservationRepository.findAll();
+        for (Reservation reservation : reservations) {
+            reservationDTOS.add(MAPPER.toReservationDTO(reservation));
+        }
+        return reservationDTOS;
     }
 
     //Encontrar reservas atraves do nome do cliente
-    public List<Reservation> getReservationsByClientName(String customerName) {
-        return reservationRepository.findByCustomerName(customerName);
+    public List<ReservationDTO> getReservationsByClientName(String customerName) {
+        List<Reservation> reservations = reservationRepository.findByCustomerName(customerName);
+        List<ReservationDTO> reservationDTOS = new ArrayList<>();
+        for (Reservation reservation : reservations) {
+            reservationDTOS.add(MAPPER.toReservationDTO(reservation));
+        }
+        return reservationDTOS;
     }
 }

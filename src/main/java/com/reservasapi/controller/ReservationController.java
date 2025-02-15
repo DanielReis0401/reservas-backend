@@ -24,7 +24,7 @@ public class ReservationController {
         summary = "Get all reservations",
         description = "Fetches all the reservations from the system"
     )
-    public List<Reservation> getAllReservations() {
+    public List<ReservationDTO> getAllReservations() {
         return reservationService.getAllReservations();
     }
 
@@ -33,7 +33,7 @@ public class ReservationController {
         summary = "Get a reservation by ID",
         description = "Fetches a reservation by its unique identifier"
     )
-    public ResponseEntity<Optional<Reservation>> getReservationById(
+    public ResponseEntity<Optional<ReservationDTO>> getReservationById(
         @PathVariable Long id
     ) {
         return ResponseEntity.ok(reservationService.getReservationById(id));
@@ -81,7 +81,7 @@ public class ReservationController {
         description = "Fetches all reservations for a specific client based on the client name"
     )
     @GetMapping("/search")
-    public List<Reservation> searchByClientName(
+    public List<ReservationDTO> searchByClientName(
         @RequestParam String clientName
     ) {
         return reservationService.getReservationsByClientName(clientName);

@@ -23,7 +23,7 @@ public class PassengerController {
         summary = "Get passengers by Reservation ID",
         description = "Returns a list of passengers associated with a specific reservation"
     )
-    public List<Passenger> getPassengersByReservation(
+    public List<PassengerDTO> getPassengersByReservation(
         @PathVariable Long reservationId
     ) {
         return passengerService.getPassengersByReservation(reservationId);
