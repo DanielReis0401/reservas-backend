@@ -1,7 +1,6 @@
 package com.reservasapi.service;
 
 import com.reservasapi.dto.PassengerDTO;
-import com.reservasapi.dto.requests.PassengerRequest;
 import com.reservasapi.dto.responses.PassengersResponse;
 import com.reservasapi.exceptions.NotFoundException;
 import com.reservasapi.model.mapper.PassengerMapper;
@@ -10,10 +9,11 @@ import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.PassengerRepository;
 import com.reservasapi.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
-import java.util.Optional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class PassengerService {

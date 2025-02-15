@@ -1,7 +1,6 @@
 package com.reservasapi.controller;
 
 import com.reservasapi.dto.PassengerDTO;
-import com.reservasapi.dto.requests.PassengerRequest;
 import com.reservasapi.dto.responses.PassengersResponse;
 import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.service.PassengerService;
