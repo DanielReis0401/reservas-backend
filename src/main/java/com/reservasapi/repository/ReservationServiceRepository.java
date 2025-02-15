@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReservationServiceRepository
-  extends JpaRepository<ReservationService, Long> {
-  //Encontrar servicos por nome
-  List<ReservationService> findByName(String name);
+    extends JpaRepository<ReservationService, Long> {
+    //Encontrar servicos por nome
+    List<ReservationService> findByName(String name);
 
-  //Listar todos os servicos
-  List<ReservationService> findAll();
+    //Listar todos os servicos
+    List<ReservationService> findAll();
 
-  //Encontrar servico por ID
-  Optional<ReservationService> findById(Long id);
+    //Encontrar servico por ID
+    Optional<ReservationService> findById(Long id);
 }

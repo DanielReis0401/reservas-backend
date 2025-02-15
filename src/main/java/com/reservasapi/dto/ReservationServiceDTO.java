@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReservationServiceDTO {
 
-  private String name;
-  private String description;
-  private double price;
+    private String name;
+    private String description;
+    private double price;
 }

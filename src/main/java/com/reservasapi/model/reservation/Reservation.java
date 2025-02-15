@@ -35,98 +35,98 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Reservation {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(name = "customer_name", nullable = false)
-  private String customerName;
+    @Column(name = "customer_name", nullable = false)
+    private String customerName;
 
-  @Column(name = "creation_date", nullable = false)
-  private LocalDate creationDate;
+    @Column(name = "creation_date", nullable = false)
+    private LocalDate creationDate;
 
-  @Column(name = "total_price", nullable = false)
-  @Setter(AccessLevel.NONE)
-  private double totalPrice;
+    @Column(name = "total_price", nullable = false)
+    @Setter(AccessLevel.NONE)
+    private double totalPrice;
 
-  @ManyToMany(
-    fetch = FetchType.LAZY,
-    cascade = {
-      CascadeType.PERSIST,
-      CascadeType.MERGE,
-      CascadeType.DETACH,
-      CascadeType.REFRESH,
+    @ManyToMany(
+        fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH,
+        }
+    )
+    @JoinTable(
+        name = "PASSENGER_RESERVATION_MAPPING",
+        joinColumns = @JoinColumn(name = "passenger_id"),
+        inverseJoinColumns = @JoinColumn(name = "reservation_id")
+    )
+    @Builder.Default
+    private List<Passenger> passengers = new ArrayList<>();
+
+    @OneToMany(
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JoinColumn(name = "reservation_id")
+    @Builder.Default
+    private List<ReservationService> services = new ArrayList<>();
+
+    /**
+     * Adds a passenger to the reservation.
+     *
+     * @param passenger the passenger to be added
+     */
+    public void addPassenger(Passenger passenger) {
+        passengers.add(passenger);
     }
-  )
-  @JoinTable(
-    name = "PASSENGER_RESERVATION_MAPPING",
-    joinColumns = @JoinColumn(name = "passenger_id"),
-    inverseJoinColumns = @JoinColumn(name = "reservation_id")
-  )
-  @Builder.Default
-  private List<Passenger> passengers = new ArrayList<>();
 
-  @OneToMany(
-    fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL,
-    orphanRemoval = true
-  )
-  @JoinColumn(name = "reservation_id")
-  @Builder.Default
-  private List<ReservationService> services = new ArrayList<>();
+    /**
+     * Removes a passenger from the reservation.
+     *
+     * @param passenger the passenger to be removed
+     */
+    public void removePassenger(Passenger passenger) {
+        passengers.remove(passenger);
+    }
 
-  /**
-   * Adds a passenger to the reservation.
-   *
-   * @param passenger the passenger to be added
-   */
-  public void addPassenger(Passenger passenger) {
-    passengers.add(passenger);
-  }
+    /**
+     * Adds a service to the reservation.
+     *
+     * @param service the service to be added
+     */
+    public void addService(ReservationService service) {
+        services.add(service);
+    }
 
-  /**
-   * Removes a passenger from the reservation.
-   *
-   * @param passenger the passenger to be removed
-   */
-  public void removePassenger(Passenger passenger) {
-    passengers.remove(passenger);
-  }
+    /**
+     * Removes a service from the reservation.
+     *
+     * @param service the service to be removed
+     */
+    public void removeService(ReservationService service) {
+        services.remove(service);
+    }
 
-  /**
-   * Adds a service to the reservation.
-   *
-   * @param service the service to be added
-   */
-  public void addService(ReservationService service) {
-    services.add(service);
-  }
+    /**
+     * Calculates the total price of the reservation based on the services and the number of passengers.
+     */
+    public double getTotalPrice() {
+        return (
+            services.stream().mapToDouble(ReservationService::getPrice).sum() *
+            passengers.size()
+        );
+    }
 
-  /**
-   * Removes a service from the reservation.
-   *
-   * @param service the service to be removed
-   */
-  public void removeService(ReservationService service) {
-    services.remove(service);
-  }
-
-  /**
-   * Calculates the total price of the reservation based on the services and the number of passengers.
-   */
-  public double getTotalPrice() {
-    return (
-      services.stream().mapToDouble(ReservationService::getPrice).sum() *
-      passengers.size()
-    );
-  }
-
-  /**
-   * Updates the total price of the reservation before saving it.
-   */
-  @PrePersist
-  @PreUpdate
-  private void setTotalPrice() {
-    this.totalPrice = getTotalPrice();
-  }
+    /**
+     * Updates the total price of the reservation before saving it.
+     */
+    @PrePersist
+    @PreUpdate
+    private void setTotalPrice() {
+        this.totalPrice = getTotalPrice();
+    }
 }

@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PassengerRepository extends JpaRepository<Passenger, Long> {
-  //Encontrar passageiros por nome
-  List<Passenger> findByName(String name);
+    //Encontrar passageiros por nome
+    List<Passenger> findByName(String name);
 
-  //Listar todos passageiros
-  List<Passenger> findAll();
+    //Listar todos passageiros
+    List<Passenger> findAll();
 
-  //Encontrar passageiro por ID
-  Optional<Passenger> findById(Long id);
+    //Encontrar passageiro por ID
+    Optional<Passenger> findById(Long id);
 }

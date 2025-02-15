@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReservationDTO {
 
-  private String customerName;
-  private LocalDate creationDate;
-  private List<PassengerDTO> passengers;
-  private List<ReservationServiceDTO> services;
-  private double totalPrice;
+    private String customerName;
+    private LocalDate creationDate;
+    private List<PassengerDTO> passengers;
+    private List<ReservationServiceDTO> services;
+    private double totalPrice;
 }

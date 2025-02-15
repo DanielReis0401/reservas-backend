@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PassengerDTO {
 
-  private String name;
-  private int age;
-  private PassengerType type;
-  private List<ReservationDTO> reservations;
+    private String name;
+    private int age;
+    private PassengerType type;
+    private List<ReservationDTO> reservations;
 }
