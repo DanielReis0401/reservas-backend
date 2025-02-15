@@ -7,6 +7,8 @@ import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.PassengerRepository;
 import com.reservasapi.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.mapstruct.factory.Mappers;
@@ -27,12 +29,16 @@ public class PassengerService {
     private ReservationRepository reservationRepository;
 
     //Listar passageiros de uma reserva
-    public List<Passenger> getPassengersByReservation(Long reservationId) {
+    public List<PassengerDTO> getPassengersByReservation(Long reservationId) {
         Optional<Reservation> reservation = reservationRepository.findById(
             reservationId
         );
         if (reservation.isPresent()) {
-            return reservation.get().getPassengers(); //Retorna os passageiros de uma reserva
+            List<PassengerDTO> passengerDTOS = new ArrayList<>();
+            for (Passenger passenger : reservation.get().getPassengers()) {
+                passengerDTOS.add(MAPPER.toPassengerDTO(passenger));
+            }
+            return passengerDTOS; //Retorna os passageiros de uma reserva
         } else {
             throw new RuntimeException(
                 "Reservation not found with ID: " + reservationId
