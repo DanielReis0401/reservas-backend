@@ -77,26 +77,14 @@ public class PassengerService {
 
     //Update a um passageiro
     @Transactional
-    public Passenger updatePassenger(
-        Long reservationId,
-        Long passengerId,
-        PassengerDTO updatedPassengerDTO
-    ) {
-        // Buscar a reserva
-        Reservation reservation = reservationRepository
-            .findById(reservationId)
-            .orElseThrow(() ->
-                new RuntimeException(
-                    "Reservation not found with ID: " + reservationId
-                )
-            );
-
+    public PassengerDTO updatePassenger(PassengerDTO updatedPassengerDTO) {
         // Buscar o passageiro
         Passenger existingPassenger = passengerRepository
-            .findById(passengerId)
+            .findById(updatedPassengerDTO.getId())
             .orElseThrow(() ->
                 new RuntimeException(
-                    "Passenger not found with ID: " + passengerId
+                    "Passenger not found with ID: " +
+                    updatedPassengerDTO.getId()
                 )
             );
 
@@ -106,7 +94,9 @@ public class PassengerService {
         existingPassenger.setType(updatedPassengerDTO.getType());
 
         // Salvar o passageiro atualizado
-        return passengerRepository.save(existingPassenger);
+        return MAPPER.toPassengerDTO(
+            passengerRepository.save(existingPassenger)
+        );
     }
 
     //Apagar passageiro de uma reserva

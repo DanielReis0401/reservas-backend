@@ -2,7 +2,6 @@ package com.reservasapi.controller;
 
 import com.reservasapi.dto.PassengerDTO;
 import com.reservasapi.dto.responses.PassengersResponse;
-import com.reservasapi.model.passenger.Passenger;
 import com.reservasapi.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/passengers")
-public class PassengerController {
+public class PassengerController implements IPassengerController {
 
     @Autowired
     private PassengerService passengerService;
@@ -33,17 +32,11 @@ public class PassengerController {
     }
 
     @PutMapping
-    public ResponseEntity<Passenger> updatePassenger(
-        @RequestBody PassengerDTO passengerDTO,
-        @RequestParam Long reservationId,
-        @RequestParam Long passengerId
+    public ResponseEntity<PassengerDTO> updatePassenger(
+        @RequestBody PassengerDTO passengerDTO
     ) {
         return ResponseEntity.ok(
-            passengerService.updatePassenger(
-                reservationId,
-                passengerId,
-                passengerDTO
-            )
+            passengerService.updatePassenger(passengerDTO)
         );
     }
 
