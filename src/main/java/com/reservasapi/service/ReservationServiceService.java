@@ -75,7 +75,7 @@ public class ReservationServiceService {
     public ReservationService updateServico(
         Long reservationId,
         Long servicoId,
-        ReservationService updatedReservationService
+        ReservationServiceDTO updatedReservationServiceDTO
     ) {
         Optional<Reservation> reservation = reservationRepository.findById(
             reservationId
@@ -86,13 +86,19 @@ public class ReservationServiceService {
             if (servico.isPresent()) {
                 ReservationService existingReservationService = servico.get();
                 existingReservationService.setName(
-                    updatedReservationService.getName()
+                    MAPPER.toReservationService(
+                        updatedReservationServiceDTO
+                    ).getName()
                 );
                 existingReservationService.setDescription(
-                    updatedReservationService.getDescription()
+                    MAPPER.toReservationService(
+                        updatedReservationServiceDTO
+                    ).getDescription()
                 );
                 existingReservationService.setPrice(
-                    updatedReservationService.getPrice()
+                    MAPPER.toReservationService(
+                        updatedReservationServiceDTO
+                    ).getPrice()
                 );
 
                 ReservationService savedReservationService =

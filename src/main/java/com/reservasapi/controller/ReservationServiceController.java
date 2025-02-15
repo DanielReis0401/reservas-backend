@@ -66,13 +66,13 @@ public class ReservationServiceController {
     public ResponseEntity<ReservationService> updateServico(
         @PathVariable Long reservationId,
         @PathVariable Long servicoId,
-        @RequestBody ReservationService updatedService
+        @RequestBody ReservationServiceDTO updatedServiceDTO
     ) {
         return ResponseEntity.ok(
             reservationServiceService.updateServico(
                 reservationId,
                 servicoId,
-                updatedService
+                updatedServiceDTO
             )
         );
     }
