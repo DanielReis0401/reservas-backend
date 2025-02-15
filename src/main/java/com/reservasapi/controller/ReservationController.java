@@ -1,5 +1,6 @@
 package com.reservasapi.controller;
 
+import com.reservasapi.dto.ReservationDTO;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.service.ReservationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,9 +45,11 @@ public class ReservationController {
     description = "Creates a new reservation based on the provided details"
   )
   public ResponseEntity<Reservation> createReservation(
-    @RequestBody Reservation reservation
+    @RequestBody ReservationDTO reservationDTO
   ) {
-    return ResponseEntity.ok(reservationService.createReservation(reservation));
+    return ResponseEntity.ok(
+      reservationService.createReservation(reservationDTO)
+    );
   }
 
   @PutMapping("/{id}")
@@ -56,10 +59,10 @@ public class ReservationController {
   )
   public ResponseEntity<Reservation> updateReservation(
     @PathVariable Long id,
-    @RequestBody Reservation updatedReservation
+    @RequestBody ReservationDTO updatedReservationDTO
   ) {
     return ResponseEntity.ok(
-      reservationService.updateReservation(id, updatedReservation)
+      reservationService.updateReservation(id, updatedReservationDTO)
     );
   }
 
