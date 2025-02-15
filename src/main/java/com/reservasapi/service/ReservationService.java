@@ -1,15 +1,15 @@
 package com.reservasapi.service;
 
 import com.reservasapi.dto.ReservationDTO;
-import com.reservasapi.model.mapper.PassengerMapper;
 import com.reservasapi.model.mapper.ReservationMapper;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.ReservationRepository;
-import java.util.List;
-import java.util.Optional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationService {
