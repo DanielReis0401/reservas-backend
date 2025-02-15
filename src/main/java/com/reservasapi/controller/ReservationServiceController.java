@@ -8,17 +8,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/reservationsServices")
 @Tag(
     name = "Reservation Services",
     description = "Endpoints for managing services related to reservations"
@@ -28,7 +21,7 @@ public class ReservationServiceController {
     @Autowired
     private ReservationServiceService reservationServiceService;
 
-    @GetMapping("/reservation/{reservationId}")
+    @GetMapping("/{reservationId}")
     @Operation(
         summary = "Get services by reservation",
         description = "Fetches all services associated with a specific reservation"
@@ -77,14 +70,14 @@ public class ReservationServiceController {
         );
     }
 
-    @DeleteMapping("/{reservationId}/{serviceId}")
+    @DeleteMapping
     @Operation(
         summary = "Delete a service from a reservation",
         description = "Removes a service from the specified reservation"
     )
     public ResponseEntity<Void> deleteServico(
-        @PathVariable Long reservationId,
-        @PathVariable Long servicoId
+        @RequestParam Long reservationId,
+        @RequestParam Long servicoId
     ) {
         reservationServiceService.deleteServico(reservationId, servicoId);
         return ResponseEntity.noContent().build();

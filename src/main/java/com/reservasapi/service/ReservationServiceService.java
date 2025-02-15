@@ -1,6 +1,7 @@
 package com.reservasapi.service;
 
 import com.reservasapi.dto.ReservationServiceDTO;
+import com.reservasapi.exceptions.NotFoundException;
 import com.reservasapi.model.mapper.ReservationServiceMapper;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.model.service.ReservationService;
@@ -48,26 +49,26 @@ public class ReservationServiceService {
         Long reservationId,
         ReservationServiceDTO reservationServiceDTO
     ) {
-        Optional<Reservation> reservation = reservationRepository.findById(
-            reservationId
-        );
-        if (reservation.isPresent()) {
-            Reservation existingReservation = reservation.get();
-
-            //Guarda o servico
-            ReservationService savedReservationService =
-                reservationServiceRepository.save(
-                    MAPPER.toReservationService(reservationServiceDTO)
-                );
-
-            reservationRepository.save(existingReservation);
-
-            return savedReservationService;
-        } else {
-            throw new RuntimeException(
-                "Reservation not found with ID: " + reservationId
+        // Busca a reserva pelo ID
+        Reservation reservation = reservationRepository
+            .findById(reservationId)
+            .orElseThrow(() ->
+                new RuntimeException(
+                    "Reservation not found with ID: " + reservationId
+                )
             );
-        }
+
+        // Criar o serviço e adicioná-lo à reserva
+        ReservationService newService = MAPPER.toReservationService(
+            reservationServiceDTO
+        );
+        reservation.getServices().add(newService); // Associar serviço à reserva
+
+        // Salvar o serviço e a reserva
+        reservationServiceRepository.save(newService);
+        reservationRepository.save(reservation); //
+
+        return newService;
     }
 
     //Update um servico existente
@@ -124,26 +125,32 @@ public class ReservationServiceService {
     //Apagar um servico de uma reserva
     @Transactional
     public void deleteServico(Long reservationId, Long servicoId) {
-        /* TODO Fix
-        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
-        if(reservation.isPresent()){
-            Reservation existingReservation = reservation.get();
-            Optional<ReservationService> servico = servicoRepository.findById(servicoId);
-            if(servico.isPresent()){
-                ReservationService existingReservationService = servico.get();
-                if(existingReservationService.getReservation().equals(existingReservation)){
-                    servicoRepository.deleteById(servicoId);
+        // Buscar a reserva pelo ID
+        Reservation reservation = reservationRepository
+            .findById(reservationId)
+            .orElseThrow(() ->
+                new NotFoundException(
+                    "Reservation not found with ID: " + reservationId
+                )
+            );
 
-                    reservationRepository.save(existingReservation);
-                } else {
-                    throw new RuntimeException("This service does not belong to the reservation with ID: " + reservationId);
-                }
-            } else {
-                throw new RuntimeException("Service not found with ID: " + servicoId);
-            }
-        } else {
-            throw new RuntimeException("Reservation not found with ID: " + reservationId);
-        }
-         */
+        // Buscar o serviço dentro da reserva
+        ReservationService serviceToRemove = reservation
+            .getServices()
+            .stream()
+            .filter(service -> service.getId().equals(servicoId))
+            .findFirst()
+            .orElseThrow(() ->
+                new NotFoundException("Service not found with ID: " + servicoId)
+            );
+
+        // Remover o serviço da reserva
+        reservation.getServices().remove(serviceToRemove);
+
+        // Salvar a reserva atualizada
+        reservationRepository.save(reservation);
+
+        // Apagar o serviço do repositório
+        reservationServiceRepository.delete(serviceToRemove);
     }
 }
