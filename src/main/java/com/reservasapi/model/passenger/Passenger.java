@@ -54,5 +54,6 @@ public class Passenger {
     inverseJoinColumns = @JoinColumn(name = "reservation_id")
   )
   @Schema(description = "List of reservations associated with the Passenger")
+  @Builder.Default
   private List<Reservation> reservations = new ArrayList<>();
 }
