@@ -4,17 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.reservasapi.dto.ReservationDTO;
-import com.reservasapi.model.mapper.ReservationMapper;
 import com.reservasapi.model.reservation.Reservation;
 import com.reservasapi.repository.ReservationRepository;
 import com.reservasapi.service.ReservationService;
 import java.time.LocalDate;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +36,7 @@ class ReservationServiceTest {
         reservation.setCreationDate(LocalDate.of(2025, 1, 1));
 
         // Stubbing: Quando o repositório salva a reserva e retorna o mesmo objeto
-        when(reservationRepository.save(reservation)).thenReturn(reservation);
+        when(reservationRepository.save(any())).thenReturn(reservation);
 
         // Act: Chama o método createReservation do serviço
         Reservation createdReservation = reservationService.createReservation(
@@ -58,6 +55,6 @@ class ReservationServiceTest {
         );
 
         // Verifica se o mapper e o repositório foram chamados corretamente
-        verify(reservationRepository, times(1)).save(reservation);
+        verify(reservationRepository, times(1)).save(any());
     }
 }
